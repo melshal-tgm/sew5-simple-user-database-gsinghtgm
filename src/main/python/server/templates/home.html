@@ -94,10 +94,10 @@
             <tr>
                <td>{{result["username"]}}</td>
                <td>{{result["email"]}}</td>
-               <td>{{result["picture"]}}</td></tr>
-                <td align="center"><a href = "{{ url_for('sql_editlink', eemail=result['email'], epicture=result['picture']) }}"><i class="fas fa-edit"></a></td>
+               <td>{{result["picture"]}}</td>
+               <td align="center"><a href = "{{ url_for('sql_editlink', eemail=result['email'], epicture=result['picture']) }}"><i class="fas fa-edit"></a></td>
                <td align="center"><a href = "{{ url_for('sql_datadelete', email=result['email'], picture=result['picture']) }}"><i class="fas fa-trash-alt"></a></td>
-
+            </tr>
          {% endfor %}
       </table>
 
