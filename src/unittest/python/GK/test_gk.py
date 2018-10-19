@@ -1,11 +1,19 @@
-from server.serverwithoutsqlite import create_app
-from flask import url_for
+import json
 import pytest
+from server.serverwithoutsqlite import app
 
 @pytest.fixture
-def app():
-    app = create_app()
-    return app
+def client(request):
+    test_client = app.test_client()
 
-def test_app(client):
-    assert client.get(url_for('user1')).status_code == 200
+    def teardown():
+        pass
+
+    request.addfinalizer(teardown)
+    return test_client
+
+def post_json(client, url, json_dict):
+    return client.post(url, data=json.dumps(json_dict), content_type='users')
+
+def json_of_response(response):
+    return json.loads(response.data.decode('utf8'))
