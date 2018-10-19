@@ -12,8 +12,10 @@ def client(request):
     request.addfinalizer(teardown)
     return test_client
 
-def post_json(client, url, json_dict):
+
+def test_post_json(client, url, json_dict):
     return client.post(url, data=json.dumps(json_dict), content_type='users')
 
-def json_of_response(response):
+
+def test_json_of_response(response):
     return json.loads(response.data.decode('utf8'))
