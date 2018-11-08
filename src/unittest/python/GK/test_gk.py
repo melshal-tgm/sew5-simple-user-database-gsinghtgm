@@ -1,21 +1,24 @@
-import json
 import pytest
 from server.serverwithoutsqlite import app
-
-@pytest.fixture
-def client(request):
-    test_client = app.test_client()
-
-    def teardown():
-        pass
-
-    request.addfinalizer(teardown)
-    return test_client
+from flask import url_for
 
 
-def test_post_json(client, url, json_dict):
-    return client.post(url, data=json.dumps(json_dict), content_type='users')
+@pytest.fixture(scope='module')
+def test_client():
+    flask_app = app()
+    # Flask provides a way to test your application by exposing the Werkzeug test Client
+    # and handling the context locals for you.
+    testing_client = flask_app.test_client()
 
+    # Establish an application context before running the tests.
+    ctx = flask_app.app_context()
+    ctx.push()
 
-def test_json_of_response(response):
-    return json.loads(response.data.decode('utf8'))
+    yield testing_client  # this is where the testing happens!
+
+    ctx.pop()
+
+def test_ping(self, client):
+    res = client.get(url_for('ping'))
+    assert res.status_code == 200
+    assert res.json == {'ping': 'pong'}
