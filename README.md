@@ -14,10 +14,13 @@ Bei der Implementierung habe ich das Flask Restful Full Example, als Basis genom
 ### CRUD Funktionen
 Zum Aufrufen aller User.
 `curl http://localhost:5000/users`
+
 Zum Aufrufen eines bestimmten User.
 `curl http://localhost:5000/users/user1`
+
 Zum Löschen eines User.
 `curl http://localhost:5000/users/user1 -X DELETE -v`
+
 Zum Anlegen eines User.
 `curl http://localhost:5000/users -d "username=gsingh4" -d "email=gsingh4@student.tgm.ac.at" -d "picture=imgur.com/444" -X POST -v`
 
