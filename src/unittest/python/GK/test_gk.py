@@ -1,9 +1,10 @@
-import pytest
-from flask import url_for
+from server.serverwithoutsqlite import app
+import unittest
 
 
-class TestApp:
-    def test_ping(self, client):
-        res = client.get(url_for('ping'))
-        assert res.status_code == 200
-        assert res.json == {'ping': 'pong'}
+class FlaskTestCase(unittest.TestCase):
+    def test_index(self):
+        tester=app.test_client(self)
+        response=tester.get('/users',content_type='html/text')
+        self.assertEqual(response.status_code,200)
+
