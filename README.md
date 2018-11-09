@@ -28,5 +28,9 @@ Zum Anlegen eines User.
 
 `curl http://localhost:5000/users -d "username=gsingh4" -d "email=gsingh4@student.tgm.ac.at" -d "picture=imgur.com/444" -X POST -v`
 
+Zum Updaten eines User.
+
+`curl http://localhost:5000/users/user4 -d"username=gsingh4" -d "email=gsingh3@student.tgm.ac.at" -d "picture=imgur.com/4444" -X PUT -v`
+
 ## Quellen
 [Flask ReST](https://flask-restful.readthedocs.io/en/latest/quickstart.html#full-example)
