@@ -1,55 +1,65 @@
-from flask import Flask, request,redirect,render_template
+from flask import Flask
+from flask_restful import reqparse, abort, Api, Resource
+import json
+import os
 app = Flask(__name__)
+api = Api(app)
+db=os.path.dirname(os.path.realpath(__file__))+'\\users.json'
+with open(db) as json_file:
+    USERS = json.load(json_file)
 
-@app.route("/")
-def sql_database():
-   from user import sql_query
-   results=sql_query('''SELECT * FROM users''')
-   return results
 
-@app.route('/insert',methods = ['POST', 'GET']) #this is when user submits an insert
-def sql_datainsert():
-    from user import sql_edit_insert, sql_query
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        picture = request.form['picture']
-        sql_edit_insert(''' INSERT INTO users (username,email,picture) VALUES (?,?,?) ''', (username,email,picture) )
-    results = sql_query(''' SELECT * FROM users''')
-    return results
+def abort_if_user_doesnt_exist(user_id):
+    if user_id not in USERS:
+        abort(404, message="User {} doesn't exist".format(user_id))
 
-@app.route('/delete',methods = ['POST', 'GET']) #this is when user clicks delete link
-def sql_datadelete():
-    from user import sql_delete, sql_query
-    if request.method == 'GET':
-        email = request.args.get('lname')
-        picture = request.args.get('fname')
-        sql_delete(''' DELETE FROM users where email = ? and picture = ?''', (email,picture) )
-    results = sql_query(''' SELECT * FROM users''')
-    return results
+parser = reqparse.RequestParser()
+parser.add_argument('username')
+parser.add_argument('email')
+parser.add_argument('picture')
 
-@app.route('/query_edit',methods = ['POST', 'GET']) #this is when user clicks edit link
-def sql_editlink():
-    from user import sql_query, sql_query2
-    if request.method == 'GET':
-        eemail = request.args.get('eemail')
-        epicture = request.args.get('epicture')
-        eresults = sql_query2(''' SELECT * FROM users where email = ? and picture = ?''', (eemail,epicture))
-    results = sql_query(''' SELECT * FROM users''')
-    return results
 
-@app.route('/edit',methods = ['POST', 'GET']) #this is when user submits an edit
-def sql_dataedit():
-    from user import sql_edit_insert, sql_query
-    if request.method == 'POST':
-        old_email = request.form['old_email']
-        old_picture = request.form['old_picture']
-        username = request.form['username']
-        email = request.form['email']
-        picture = request.form['picture']
-        sql_edit_insert(''' UPDATE users set username=?,email=?,picture=? WHERE username=? ''', (username,email,picture,username) )
-    results = sql_query(''' SELECT * FROM users''')
-    return results
+class User(Resource):
+#curl http://localhost:5000/users/user1
+    def get(self, user_id):
+        abort_if_user_doesnt_exist(user_id)
+        return USERS[user_id]
+#curl http://localhost:5000/users/user1 -X DELETE -v
+    def delete(self, user_id):
+        abort_if_user_doesnt_exist(user_id)
+        del USERS[user_id]
+        with open(db, 'w') as outfile:
+            json.dump(USERS, outfile)
+        return '', 204
+#curl http://localhost:5000/users/user4 -d"username=gsingh4" -d "email=gsingh3@student.tgm.ac.at" -d "picture=imgur.com/4444" -X PUT -v
+    def put(self, user_id):
+        args = parser.parse_args()
+        user = {'username': args['username'],'email':args['email'],'picture':args['picture']}
+        USERS[user_id] = user
+        with open(db, 'w') as outfile:
+            json.dump(USERS, outfile)
+        return user, 201
+
+class UserList(Resource):
+#curl http://localhost:5000/users
+    def get(self):
+        return USERS
+#curl http://localhost:5000/users -d "username=gsingh4" -d "email=gsingh4@student.tgm.ac.at" -d "picture=imgur.com/444" -X POST -v
+    def post(self):
+        args = parser.parse_args()
+        user_id = int(max(USERS.keys()).lstrip('user')) + 1
+        user_id = 'user%i' % user_id
+        USERS[user_id] = {'username': args['username'],'email':args['email'],'picture':args['picture']}
+        with open(db, 'w') as outfile:
+            json.dump(USERS, outfile)
+        return USERS[user_id], 201
+
+##
+## Actually setup the Api resource routing here
+##
+api.add_resource(UserList, '/users')
+api.add_resource(User, '/users/<user_id>')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

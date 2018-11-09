@@ -1,6 +1,6 @@
 import pytest
 
-from server.serverwithoutsqlite import app as create_app
+from server.server import app as create_app
 
 @pytest.fixture
 def client():
