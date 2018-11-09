@@ -31,22 +31,20 @@ class User(Resource):
         with open(db, 'w') as outfile:
             json.dump(USERS, outfile)
         return '', 204
-#curl http://localhost:5000/users -d "username=gsingh4" -d "email=gsingh4@student.tgm.ac.at" -d "picture=imgur.com/444" -X POST -v
+#curl http://localhost:5000/users/user4 -d"username=gsingh4" -d "email=gsingh3@student.tgm.ac.at" -d "picture=imgur.com/4444" -X PUT -v
     def put(self, user_id):
         args = parser.parse_args()
         user = {'username': args['username'],'email':args['email'],'picture':args['picture']}
         USERS[user_id] = user
-        print(USERS)
         with open(db, 'w') as outfile:
             json.dump(USERS, outfile)
         return user, 201
-
 
 class UserList(Resource):
 #curl http://localhost:5000/users
     def get(self):
         return USERS
-
+#curl http://localhost:5000/users -d "username=gsingh4" -d "email=gsingh4@student.tgm.ac.at" -d "picture=imgur.com/444" -X POST -v
     def post(self):
         args = parser.parse_args()
         user_id = int(max(USERS.keys()).lstrip('user')) + 1
