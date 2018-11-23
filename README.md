@@ -3,6 +3,9 @@
 ## Aufgabenstellung
 Die detaillierte [Aufgabenstellung](TASK.md) beschreibt die notwendigen Schritte zur Realisierung.
 
+## TODO Liste fuer 23.11.2018
+Die [Liste](TODO.md) !
+
 ## Implementierung
 
 Bei der Implementierung habe ich das Flask Restful Full Example, als Basis genommen und für meine Applikation geändert. Die wichtigsten Eigenschaften die ich zum Code hinzugefügt habe, sind die extra Argumente die benötigt werden damit der User mehrere Attribute haben kann.
