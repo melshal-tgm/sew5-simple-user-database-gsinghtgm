@@ -1,6 +1,4 @@
 # TODO 23.11.2018
-## TODO.md erstellen
-## GIT forken & upstream pushen
 
  - [x] TODO.md erstellen
  - [ ] GIT forken & upstream pushen
