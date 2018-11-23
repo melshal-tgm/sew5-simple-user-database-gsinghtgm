@@ -1,9 +1,11 @@
-from flask import Flask
+from flask import Flask,jsonify
+from flask_cors import CORS
 from flask_restful import reqparse, abort, Api, Resource
 import json
 import os
 app = Flask(__name__)
 api = Api(app)
+CORS(app)
 db=os.path.dirname(os.path.realpath(__file__))+'\\users.json'
 with open(db) as json_file:
     USERS = json.load(json_file)
@@ -17,7 +19,11 @@ parser = reqparse.RequestParser()
 parser.add_argument('username')
 parser.add_argument('email')
 parser.add_argument('picture')
-
+@app.route('/users', methods=['GET'])
+def get():
+    return jsonify({
+            'users': USERS
+    })
 
 class User(Resource):
 #curl http://localhost:5000/users/user1
