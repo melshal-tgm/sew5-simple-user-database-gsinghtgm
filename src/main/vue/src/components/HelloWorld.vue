@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="users">
     <h1>Users</h1>
      <table class="table table-hover">
           <thead>
