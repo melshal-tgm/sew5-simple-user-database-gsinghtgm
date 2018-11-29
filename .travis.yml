@@ -1,4 +1,5 @@
 matrix:
+  sudo: enabled
   include:
   - stage: Tox Test
     name: "Unittesting"
