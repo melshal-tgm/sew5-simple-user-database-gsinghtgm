@@ -17,8 +17,12 @@ matrix:
       directories:
         - ~/.npm
         - ~/.cache
+        - node_modules
+      node_js:
+        - '8'
     install:
       - cd src/main/vue
-      - npm ci
+      - npm install
     script:
-      - (npm bin)/cypress run --record
+      - ls
+      - npm run cy:run -- --record
