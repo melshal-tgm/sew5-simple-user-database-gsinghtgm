@@ -21,4 +21,4 @@ matrix:
       - cd src/main/vue
       - npm ci
     script:
-      - $(npm bin)/cypress run --record
+      - (npm bin)/cypress run --record
