@@ -15,8 +15,9 @@ matrix:
     cache:
       npm: true
       directories:
+        - ~/.npm
         - ~/.cache
-    before_script:
+    install:
       - cd src/main/vue
       - npm ci
     script:
