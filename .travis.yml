@@ -24,5 +24,6 @@ matrix:
       - cd src/main/vue
       - npm ci
     script:
-      - npm install cypress --save
+      - python3 ../python/server/server.py
+      - npm start
       - npm run cy:run
