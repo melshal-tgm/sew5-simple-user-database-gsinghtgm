@@ -16,8 +16,8 @@ matrix:
       npm: true
       directories:
         - ~/.cache
-    before_script: cd src/main/vue
-    script:
+    before_script:
+      - cd src/main/vue
       - npm ci
-      - npm install --save cypress
+    script:
       - npm run cy:run
