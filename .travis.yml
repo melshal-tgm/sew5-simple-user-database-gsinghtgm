@@ -2,8 +2,21 @@ matrix:
   include:
   - stage: Tox Test
     name: "Unittesting"
-  - language: python
+    language: python
     python:
     - "3.6"
     install: pip install tox-travis
     script: tox
+  - stage: Cypress Test
+    name: "Cypress Testing"
+    language: node_js
+    node_js:
+      - 10
+    cache:
+      npm: true
+      directories:
+        - ~/.cache
+    install:
+      - npm ci
+    script:
+      - $(npm bin)/cypress run --record
