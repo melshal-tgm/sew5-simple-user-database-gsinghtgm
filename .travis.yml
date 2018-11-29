@@ -5,4 +5,8 @@ install: pip install tox-travis
 jobs:
   include:
     - stage: Tox Test
+      name: "Unittesting"
+      script: tox
+    - stage: Tox Test 2
+      name: "Unittesting2"
       script: tox
