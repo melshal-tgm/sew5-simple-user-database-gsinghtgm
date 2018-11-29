@@ -24,4 +24,8 @@ matrix:
       - cd src/main/vue
       - npm ci
     script:
+      - mv cypress/integration/testing.spec.js /
+      - npm install cypress --save
+      - rm -r cypress/intgeration/*
+      - mv testing.spec.js cypress/integration
       - npm run cy:run
