@@ -19,5 +19,4 @@ matrix:
     before_script: cd src/main/vue
     script:
       - npm ci
-      - npm install
-      - cypress run --record
+      - npm run cy:run
