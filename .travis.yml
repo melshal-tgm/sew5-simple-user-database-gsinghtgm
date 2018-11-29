@@ -22,7 +22,6 @@ matrix:
         - '8'
     install:
       - cd src/main/vue
-      - npm install
+      - npm ci
     script:
-      - ls
-      - npm run cy:run -- --record
+      - npm run cypress:run
