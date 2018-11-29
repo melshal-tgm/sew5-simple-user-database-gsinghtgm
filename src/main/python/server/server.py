@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
-db=os.path.dirname(os.path.realpath(__file__))+'\\users.json'
+db=os.path.dirname(os.path.realpath(__file__))+'//users.json'
 with open(db) as json_file:
     USERS = json.load(json_file)
 
