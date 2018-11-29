@@ -27,6 +27,7 @@ class User(Resource):
         return jsonify({
         ''+user_id:USERS[user_id]
         })
+
 #curl http://localhost:5000/users/user1 -X DELETE -v
     def delete(self, user_id):
         abort_if_user_doesnt_exist(user_id)
@@ -48,7 +49,7 @@ class UserList(Resource):
     def get(self):
         return jsonify({
             'users': USERS
-    })
+        })
 #curl http://localhost:5000/users -d "username=gsingh4" -d "email=gsingh4@student.tgm.ac.at" -d "picture=imgur.com/444" -X POST -v
     def post(self):
         args = parser.parse_args()
