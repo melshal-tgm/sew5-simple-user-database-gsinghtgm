@@ -1,11 +1,7 @@
-describe('Home', () => {
-  beforeEach(() => {
-    // Because we're only testing the homepage
-    // in this test file, we can run this command
-    // before each individual test instead of
-    // repeating it in every test.
-    cy.visit('localhost:8080/');
-  });
+import HelloWorld from '../../src/components/HelloWorld.vue'
+const mountVue = require('cypress-vue-unit-test')
+describe('HelloWorld.vue', () => {
+  beforeEach(mountVue(HelloWorld))
 
   it('Should display the main headline.', () => {
     // By using `data-qa` selectors, we can separate
