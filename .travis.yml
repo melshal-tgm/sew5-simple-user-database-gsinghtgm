@@ -25,5 +25,6 @@ matrix:
       - pip install --user -U pip
       - pip install --user flask flask_restful flask_cors
     script:
-      - python ../python/server/server.py
+      - python ../python/server/server.py&
+      - sleep 5
       - npm run cy:run
