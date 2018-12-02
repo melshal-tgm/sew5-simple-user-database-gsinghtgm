@@ -6,7 +6,7 @@ import os
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
-db=os.path.dirname(os.path.realpath(__file__))+'\\users.json'
+db=os.path.dirname(os.path.realpath(__file__))+'//users.json'
 with open(db) as json_file:
     USERS = json.load(json_file)
 
@@ -19,17 +19,15 @@ parser = reqparse.RequestParser()
 parser.add_argument('username')
 parser.add_argument('email')
 parser.add_argument('picture')
-@app.route('/users', methods=['GET'])
-def get():
-    return jsonify({
-            'users': USERS
-    })
 
 class User(Resource):
 #curl http://localhost:5000/users/user1
     def get(self, user_id):
         abort_if_user_doesnt_exist(user_id)
-        return USERS[user_id]
+        return jsonify({
+        ''+user_id:USERS[user_id]
+        })
+
 #curl http://localhost:5000/users/user1 -X DELETE -v
     def delete(self, user_id):
         abort_if_user_doesnt_exist(user_id)
@@ -49,7 +47,9 @@ class User(Resource):
 class UserList(Resource):
 #curl http://localhost:5000/users
     def get(self):
-        return USERS
+        return jsonify({
+            'users': USERS
+        })
 #curl http://localhost:5000/users -d "username=gsingh4" -d "email=gsingh4@student.tgm.ac.at" -d "picture=imgur.com/444" -X POST -v
     def post(self):
         args = parser.parse_args()
