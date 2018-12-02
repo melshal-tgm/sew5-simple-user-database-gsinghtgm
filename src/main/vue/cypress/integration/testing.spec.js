@@ -6,4 +6,10 @@ describe('HelloWorld', () => {
   it('Users H1', () => {
     cy.get('h1').should('contain', 'Users')
   })
+  it('Read table length', () => {
+    cy.get('table tr').should('have.length', 7)
+  })
+  it('Read Users', () => {
+    cy.get('tbody>tr').eq(0).should('contain', 'gsingh@student.tgm.ac.at')
+  })
 })
