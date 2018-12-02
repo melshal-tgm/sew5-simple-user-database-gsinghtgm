@@ -25,5 +25,4 @@ matrix:
       - npm ci
     script:
       - python3 ../python/server/server.py
-      - npm start
       - npm run cy:run
