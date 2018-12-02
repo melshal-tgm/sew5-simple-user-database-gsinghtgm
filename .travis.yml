@@ -22,7 +22,7 @@ matrix:
     install:
       - cd src/main/vue
       - npm ci
-      - pip install --user flask flask_restful flask_cors
+      - pip install flask flask_restful flask_cors
     script:
       - pip install
       - python3 ../python/server/server.py
