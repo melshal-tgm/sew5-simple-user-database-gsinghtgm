@@ -22,8 +22,8 @@ matrix:
     install:
       - cd src/main/vue
       - npm ci
-      - pip3 install --user -U pip
-      - pip3 install --user flask flask_restful flask_cors
+      - pip install --user -U pip
+      - pip install --user flask flask_restful flask_cors
     script:
-      - python3 ../python/server/server.py
+      - python ../python/server/server.py
       - npm run cy:run
