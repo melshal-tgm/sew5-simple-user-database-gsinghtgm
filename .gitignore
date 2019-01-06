@@ -5,4 +5,4 @@ docs
 testreport.html
 __pycache__
 *egg-info
-src/main/java/.vscode/*
+src/main/java/.vscode/
