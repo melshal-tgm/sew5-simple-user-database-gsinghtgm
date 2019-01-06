@@ -12,7 +12,7 @@ public class CRUD_Application extends Application {
         Parent root = FXMLLoader.load(getClass().getResource("LoginPage_css.fxml"));
         primaryStage.setTitle("CRUD Application");
         primaryStage.setScene(new Scene(root, 800, 500));
-        primaryStage.show();r
+        primaryStage.show();
     }
 
 
