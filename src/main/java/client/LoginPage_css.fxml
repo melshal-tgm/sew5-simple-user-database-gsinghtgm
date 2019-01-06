@@ -9,7 +9,7 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.LoginPage_Controller.java">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.LoginPage_Controller">
   <children>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
       <children>
@@ -27,9 +27,9 @@
                   <RowConstraints maxHeight="223.0" minHeight="10.0" prefHeight="159.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <TextField promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField promptText="API Adresse" text="localhost:5050" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+               <TextField fx:id="apiAdressField" promptText="API Adresse" text="localhost:5050" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="usernameField" promptText="Username" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="passwordField" promptText="Password" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <Button fx:id="loginButton" contentDisplay="CENTER" mnemonicParsing="false" onAction="#login" prefHeight="25.0" prefWidth="73.0" text="Login" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="TOP">
                      <font>
                         <Font name="Yu Gothic UI Regular" size="12.0" />
