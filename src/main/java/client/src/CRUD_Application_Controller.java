@@ -1,12 +1,19 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONObject;
 
 import javafx.collections.FXCollections;
@@ -80,32 +87,31 @@ public class CRUD_Application_Controller {
 	}
 
 	@FXML
-	void addNewUser(ActionEvent event) {
-		URL url = new URL("https://httpbin.org/post");
-		Map params = new LinkedHashMap<>();
-		params.put("username", "Jinu Jawad");
-		params.put("email", "helloworld@gmail.com");
-		params.put("picture", "imgur.com/12321");
-		StringBuilder postData = new StringBuilder();
-		for (Map.Entry param : params.entrySet()) {
-			if (postData.length() != 0)
-				postData.append('&');
-			postData.append(URLEncoder.encode((String) param.getKey(), "UTF-8"));
-			postData.append('=');
-			postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+	void addNewUser(ActionEvent event) throws ClientProtocolException, IOException {
+		if (inputUsernameField.getText().isEmpty() || inputEmailField.getText().isEmpty()
+				|| inputPictureField.getText().isEmpty()) {
+			System.out.println("IS EMPTY");
+		} else {
+
+			HttpClient httpclient = HttpClients.createDefault();
+			HttpPost httppost = new HttpPost("http://localhost:5000/users");
+			// Request parameters and other properties.
+			List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+			params.add(new BasicNameValuePair("username", inputUsernameField.getText()));
+			params.add(new BasicNameValuePair("email", inputEmailField.getText()));
+			params.add(new BasicNameValuePair("picture", inputPictureField.getText()));
+			httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+			// Execute and get the response.
+			HttpResponse response = httpclient.execute(httppost);
+			showUsers();
 		}
-		byte[] postDataBytes = postData.toString().getBytes("UTF-8");
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-		conn.setRequestMethod("POST");
-		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-		conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
-		conn.setDoOutput(true);
-		conn.getOutputStream().write(postDataBytes);
 	}
 
 	@FXML
 	void resetCreateNewUser(ActionEvent event) {
-
+		inputUsernameField.clear();
+		inputEmailField.clear();
+		inputPictureField.clear();
 	}
 
 	public void showUsers() {
