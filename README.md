@@ -276,7 +276,7 @@ matrix:
 Diese Konfiguration enthält 2 Stages für das Backend mit Tox und für das Frontend Cypress.
 Der Erfolgreiche Build sieht so aus:
 
-![Build](https://imgur.com/IKJg544)
+![Build](https://imgur.com/IKJg544.png)
 
 ## Quellen
 [Flask ReST](https://flask-restful.readthedocs.io/en/latest/quickstart.html#full-example)
