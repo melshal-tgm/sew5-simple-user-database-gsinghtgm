@@ -1,5 +1,3 @@
-package client;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -11,7 +9,7 @@ import javafx.stage.Stage;
 import javafx.scene.Node;
 import java.io.IOException;
 
-public class LoginPage_Controller {
+public class LoginPageController {
     @FXML
     public TextField apiAdressField;
 
