@@ -235,5 +235,48 @@ describe('HelloWorld', () => {
 })
 
 ```
+### Travis CI
+Travis CI dient als Testumgebung, weil "It runs on my machine" ist ein Statement das Heute nicht mehr verwendet werden kann.
+Für Travis CI muss man sich auf [Travis-CI](www.travis-ci.org) anmelden und seinen GitHub Account verbinden. Dann können Repositories mit einer Travis Konfigurationsdatei gebuildet werden.
+Die Travis Konfigurationsdatei muss '.travis.yml' heißen und konfiguriert werden.
+Die [Travis-Documentation](https://docs.travis-ci.com/) hilft beim konfigurieren.
+Die .travis.yml in diesem Projekt sieht so aus:
+```
+matrix:
+  include:
+  - stage: Tox Test
+    name: "Unittesting"
+    language: python
+    python:
+    - "3.6"
+    install: pip install tox-travis
+    script: tox
+  - stage: Cypress Test
+    name: "Cypress Testing"
+    language: node_js
+    node_js:
+      - 10
+    cache:
+      npm: true
+      directories:
+        - ~/.npm
+        - ~/.cache
+      node_js:
+        - '8'
+    install:
+      - cd src/main/vue
+      - npm ci
+      - pip install --user -U pip
+      - pip install --user flask flask_restful flask_cors
+    script:
+      - python ../python/server/server.py&
+      - sleep 5
+      - npm run cy:run
+```
+Diese Konfiguration enthält 2 Stages für das Backend mit Tox und für das Frontend Cypress.
+Der Erfolgreiche Build sieht so aus:
+
+![Build](https://imgur.com/IKJg544)
+
 ## Quellen
 [Flask ReST](https://flask-restful.readthedocs.io/en/latest/quickstart.html#full-example)
