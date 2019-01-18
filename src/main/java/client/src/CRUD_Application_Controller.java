@@ -2,7 +2,10 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.json.JSONObject;
 
@@ -78,6 +81,34 @@ public class CRUD_Application_Controller {
 
 	@FXML
 	void addNewUser(ActionEvent event) {
+		URL url = new URL("https://httpbin.org/post");
+		Map params = new LinkedHashMap<>();
+		params.put("username", "Jinu Jawad");
+		params.put("email", "helloworld@gmail.com");
+		params.put("picture", "imgur.com/12321");
+		StringBuilder postData = new StringBuilder();
+		for (Map.Entry param : params.entrySet()) {
+			if (postData.length() != 0)
+				postData.append('&');
+			postData.append(URLEncoder.encode((String) param.getKey(), "UTF-8"));
+			postData.append('=');
+			postData.append(URLEncoder.encode(String.valueOf(param.getValue()), "UTF-8"));
+		}
+		byte[] postDataBytes = postData.toString().getBytes("UTF-8");
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+		conn.setRequestProperty("Content-Length", String.valueOf(postDataBytes.length));
+		conn.setDoOutput(true);
+		conn.getOutputStream().write(postDataBytes);
+	}
+
+	@FXML
+	void resetCreateNewUser(ActionEvent event) {
+
+	}
+
+	public void showUsers() {
 		tableUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
 		tableEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		tablePicture.setCellValueFactory(new PropertyValueFactory<>("picture"));
@@ -89,11 +120,12 @@ public class CRUD_Application_Controller {
 			e.printStackTrace();
 		}
 		contentTable.setItems(tableData);
+
 	}
 
 	@FXML
-	void resetCreateNewUser(ActionEvent event) {
-
+	public void initialize() {
+		showUsers();
 	}
 
 }
