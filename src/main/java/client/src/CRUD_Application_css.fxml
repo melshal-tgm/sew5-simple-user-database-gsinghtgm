@@ -29,7 +29,8 @@
                 <TableColumn fx:id="tableUsername" prefWidth="167.0" text="Username" />
                   <TableColumn fx:id="tableEmail" prefWidth="166.0" text="Email" />
                   <TableColumn fx:id="tablePicture" prefWidth="198.0" text="Picture" />
-                  <TableColumn fx:id="tableAction" minWidth="7.0" prefWidth="153.0" text="Action" />
+                  <TableColumn fx:id="tableEdit" minWidth="7.0" prefWidth="75.0" text="Edit" />
+                  <TableColumn fx:id="tableDelete" prefWidth="79.0" text="Delete" />
               </columns>
                <opaqueInsets>
                   <Insets />

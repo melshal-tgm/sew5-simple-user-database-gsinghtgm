@@ -35,6 +35,23 @@ Zum Updaten eines User.
 
 `curl http://localhost:5000/users/user4 -d"username=gsingh4" -d "email=gsingh3@student.tgm.ac.at" -d "picture=imgur.com/4444" -X PUT -v`
 
+### PyTest
+Die Backend Funktionen werden mit PyTest getestet. Damit man einen Server testen kann, muss ein pytest.fixture verwendet werden. pytest.fixture 
+```python
+import pytest
+from server.server import app as create_app
+@pytest.fixture
+def client():
+    create_app.testing = True
+    client = create_app.test_client()
+    yield client
+```
+```python
+def test_delete_user(client):
+    client.delete('/users/user5')
+    rv=client.get('/users/user5')
+    assert b'{"message": "User user5 doesn\'t exist.' in rv.data
+```
 ### VueJS initialisieren
 
 * Wenn bis jetzt NodeJS noch nicht installiert ist muss das jetzt gemacht werden
@@ -57,7 +74,7 @@ Zum Updaten eines User.
 * Axios zum verwenden der REST-Schnittstelle installieren
 `npm install --save axios`
 
-### 4. Client mit Vue.js auf REST-Server verbinden
+### Client mit Vue.js auf REST-Server verbinden
 Hier werden wir den generierten HelloWorldComponent verändern anstatt einen neuen zu generieren.
 Im File `src/components/HelloWorld.vue` alles löschen und durch das ersetzen:
 ```html
@@ -277,6 +294,9 @@ Diese Konfiguration enthält 2 Stages für das Backend mit Tox und für das Fron
 Der Erfolgreiche Build sieht so aus:
 
 ![Build](https://imgur.com/IKJg544.png)
+### JavaFX Client
+CRUD Desktopanwendung
 
 ## Quellen
 [Flask ReST](https://flask-restful.readthedocs.io/en/latest/quickstart.html#full-example)
+[Travis-Documentation](https://docs.travis-ci.com/)

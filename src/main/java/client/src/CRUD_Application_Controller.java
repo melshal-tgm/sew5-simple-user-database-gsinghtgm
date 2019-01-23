@@ -32,8 +32,9 @@ public class CRUD_Application_Controller {
 	private TableColumn<User, String> tablePicture;
 
 	@FXML
-	private TableColumn<User, Button> tableAction;
-
+	private TableColumn<User, Button> tableDelete;
+	@FXML
+	private TableColumn<User, Button> tableEdit;
 	@FXML
 	private TextField inputUsernameField;
 
@@ -65,9 +66,8 @@ public class CRUD_Application_Controller {
 
 	public ArrayList<User> getUsers(String apiUrl) throws Exception {
 		ArrayList<User> users = new ArrayList<User>();
-		String url = apiUrl;
-		URL obj = new URL(url);
-		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		URL url = new URL(apiUrl);
+		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
@@ -78,12 +78,13 @@ public class CRUD_Application_Controller {
 		JSONObject myResponse = new JSONObject(response.toString());
 		JSONObject userjson = myResponse.getJSONObject("users");
 		for (int i = 1; i <= userjson.length(); i++) {
-			JSONObject user1 = userjson.getJSONObject("user" + i);
-			users.add(new User(user1.getString("username"), user1.getString("email"), user1.getString("picture")));
+			JSONObject user1 = userjson.getJSONObject((String) userjson.names().get(i - 1));
+			String str = userjson.names().get(i - 1).toString();
+			users.add(new User(this, Integer.parseInt(str.replaceAll("\\D+", "")), user1.getString("username"),
+					user1.getString("email"), user1.getString("picture")));
 
 		}
 		return users;
-
 	}
 
 	@FXML
@@ -92,7 +93,6 @@ public class CRUD_Application_Controller {
 				|| inputPictureField.getText().isEmpty()) {
 			System.out.println("IS EMPTY");
 		} else {
-
 			HttpClient httpclient = HttpClients.createDefault();
 			HttpPost httppost = new HttpPost("http://localhost:5000/users");
 			// Request parameters and other properties.
@@ -115,10 +115,13 @@ public class CRUD_Application_Controller {
 	}
 
 	public void showUsers() {
+		tableID.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
 		tableEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
 		tablePicture.setCellValueFactory(new PropertyValueFactory<>("picture"));
-		// contentTable.setItems(tableData);
+		tableEdit.setCellValueFactory(new PropertyValueFactory<>("editButton"));
+		tableDelete.setCellValueFactory(new PropertyValueFactory<>("deleteButton"));
+
 		try {
 			tableData = FXCollections.observableArrayList(getUsers("http://localhost:5000/users"));
 		} catch (Exception e) {
